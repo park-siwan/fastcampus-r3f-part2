@@ -1,20 +1,45 @@
-import { useEffect } from 'react';
-import { getCurrentWeather } from '../utils/weatherApi';
+import { useEffect, useState } from 'react';
+import { getCityWeather, getCurrentWeather } from '../utils/weatherApi';
 import Earth from './Earth';
 import Weather from './Weather';
-
+import { cities } from '../utils/cities';
+const API = process.env.REACT_APP_API_KEY;
 const Scene = () => {
-  console.log(process.env.REACT_APP_API_KEY);
+  const [content, setContent] = useState();
+
+  const getCitiesWeather = () => {
+    const promises = cities.map((city) => {
+      return getCityWeather(city, API);
+    });
+    Promise.all(promises)
+      .then((weatherDataArray) => {
+        setContent(weatherDataArray);
+      })
+      .catch((error) => {
+        console.error('error', error);
+      });
+  };
+
   useEffect(() => {
-    getCurrentWeather(44.34, 10.99, process.env.REACT_APP_API_KEY);
+    getCitiesWeather();
   }, []);
+
+  useEffect(() => {
+    console.log(content);
+  }, [content]);
 
   return (
     <>
       <Earth position={[0, -2, 0]} />
-      <Weather position={[0.5, 0, 0]} weather={'rain'} />
-      <Weather position={[0, 0, 0]} weather={'clear'} />
-      <Weather position={[-0.5, 0, 0]} weather={'snow'} />
+      {content?.map((el, i) => {
+        return (
+          <Weather
+            key={i + 'Model Key'}
+            position={[-1 + i + 0.5, 0, 0]}
+            weather={el.weatherData.weather[0].main.toLowerCase()}
+          />
+        );
+      })}
     </>
   );
 };
