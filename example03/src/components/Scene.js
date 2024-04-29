@@ -4,6 +4,7 @@ import Weather from './Weather';
 import Lights from './Lights';
 import { getCityWeather } from '../utils/weatherApi';
 import { cities } from '../utils/cities';
+import { useFrame } from '@react-three/fiber';
 
 const API = process.env.REACT_APP_API_KEY;
 

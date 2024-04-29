@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useFrame, useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
@@ -10,9 +10,12 @@ const Earth = () => {
   useFrame((state, delta) => {
     ref.current.rotation.y += delta * 0.1;
   });
+  const [isHover, setHover] = useState(false);
   return (
     <mesh
-      scale={1.3}
+      onPointerEnter={() => setHover(true)}
+      onPointerLeave={() => setHover(false)}
+      scale={isHover ? 1.5 : 1.3}
       rotation-x={-Math.PI / 2}
       ref={ref}
       position={[0, -1.5, 0]}
