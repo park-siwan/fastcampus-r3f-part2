@@ -46,7 +46,7 @@ const Scene = () => {
           <Weather
             key={i + 'KEY'}
             position={[x, y - 1, 0]}
-            rotation-y={i + 1}
+            rotationY={i + 1}
             weather={el.weatherData?.weather[0]?.main?.toLowerCase()}
           />
         );
