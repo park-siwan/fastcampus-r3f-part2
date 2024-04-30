@@ -10,7 +10,7 @@ const Earth = () => {
   const [isHover, setHover] = useState(false);
 
   useFrame((_, delta) => {
-    ref.current.rotation.y += delta * 0.8;
+    ref.current.rotation.y += delta * 0.3;
   });
 
   useBodyClass(isHover, 'drag');
@@ -32,6 +32,11 @@ const Earth = () => {
         ref={ref}
       >
         <primitive object={glb.scene} />
+        <meshPhongMaterial
+          //   color={hover ? 'hotpink' : 'white'} // 마우스 오버 시 색상 변경
+          shininess={1} // 광택 정도
+          //   specular={'grey'} // 반사 색상
+        />
       </mesh>
       <Html center>
         <span className='rotation-icon'>
